@@ -1,10 +1,14 @@
+// pages/api/binance.js
+
 export default async function handler(req, res) {
+  // Libera CORS para todas as origens
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
+  // Responde requisições preflight (CORS)
   if (req.method === 'OPTIONS') {
-    return res.status(200).end(); // Preflight request
+    return res.status(200).end();
   }
 
   try {
