@@ -1,17 +1,18 @@
 // pages/api/binance.js
 
 export default async function handler(req, res) {
-  // Libera CORS para todas as origens
+  // Libera CORS para acesso externo
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // Responde requisições preflight (CORS)
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
   try {
+    const { nickname = "CAST-INTERMEDIACAO", tradeType = "SELL" } = req.body || {};
+
     const response = await fetch('https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search', {
       method: 'POST',
       headers: {
@@ -22,9 +23,9 @@ export default async function handler(req, res) {
         rows: 5,
         payTypes: ["PIX"],
         asset: "USDT",
-        tradeType: "SELL",
+        tradeType,
         fiat: "BRL",
-        userProfileNick: "CAST-INTERMEDIACAO",
+        userProfileNick: nickname,
         userType: "user"
       })
     });
